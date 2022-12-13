@@ -9,6 +9,36 @@ public class Movie {
     private ArrayList<String> genres;
     private ArrayList<String> actors;
 
+    private int numLikes = 0;
+
+    private float rating = 0;
+
+    private int numRatings = 0;
+
+    public int getNumLikes() {
+        return numLikes;
+    }
+
+    public void setNumLikes(int numLikes) {
+        this.numLikes = numLikes;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public int getNumRatings() {
+        return numRatings;
+    }
+
+    public void setNumRatings(int numRatings) {
+        this.numRatings = numRatings;
+    }
+
     public String getName() {
         return name;
     }
