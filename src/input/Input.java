@@ -9,31 +9,55 @@ import java.util.ArrayList;
 public class Input {
     private ArrayList<User> users;
 
+    /**
+     *
+     * @return users
+     */
     public ArrayList<User> getUsers() {
         return users;
     }
 
-    public void setUsers(ArrayList<User> users) {
+    /**
+     *
+     * @param users to set
+     */
+    public void setUsers(final ArrayList<User> users) {
         this.users = users;
     }
 
     private ArrayList<Movie> movies;
 
+    /**
+     *
+     * @return array of movies
+     */
     public ArrayList<Movie> getMovies() {
         return movies;
     }
 
-    public void setMovies(ArrayList<Movie> movies) {
+    /**
+     *
+     * @param movies to add
+     */
+    public void setMovies(final ArrayList<Movie> movies) {
         this.movies = movies;
     }
 
     private ArrayList<Action> actions;
 
+    /**
+     *
+     * @return array of actions
+     */
     public ArrayList<Action> getActions() {
         return actions;
     }
 
-    public void setActions(ArrayList<Action> actions) {
+    /**
+     *
+     * @param actions that will be handled
+     */
+    public void setActions(final ArrayList<Action> actions) {
         this.actions = actions;
     }
 }

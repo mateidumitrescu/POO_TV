@@ -8,43 +8,83 @@ public class Credentials {
     private String balance;
 
 
+    /**
+     *
+     * @return name of user
+     */
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    /**
+     *
+     * @param name to set for user
+     */
+    public void setName(final String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @return password of user
+     */
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    /**
+     *
+     * @param password to set for user
+     */
+    public void setPassword(final String password) {
         this.password = password;
     }
 
+    /**
+     *
+     * @return account type of user
+     */
     public String getAccountType() {
         return accountType;
     }
 
-    public void setAccountType(String accountType) {
+    /**
+     *
+     * @param accountType to set for user
+     */
+    public void setAccountType(final String accountType) {
         this.accountType = accountType;
     }
 
+    /**
+     *
+     * @return country of user
+     */
     public String getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    /**
+     *
+     * @param country to set for user
+     */
+    public void setCountry(final String country) {
         this.country = country;
     }
 
+    /**
+     *
+     * @return balance of user
+     */
     public String getBalance() {
         return balance;
     }
 
-    public void setBalance(String balance) {
+    /**
+     *
+     * @param balance to set for user
+     */
+    public void setBalance(final String balance) {
         this.balance = balance;
     }
 }

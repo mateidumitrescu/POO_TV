@@ -72,17 +72,13 @@ public class Application {
     private static SeeDetailsPage seeDetailsPage;
     private static UpgradesPage upgradesPage;
 
-    public void addUser(User user) {
+    public void addUser(final User user) {
         getUsers().add(user);
     }
 
     private boolean userLoggedIn;
 
-    public boolean isUserLoggedIn() {
-        return userLoggedIn;
-    }
-
-    public void setUserLoggedIn(boolean userLoggedIn) {
+    public void setUserLoggedIn(final boolean userLoggedIn) {
         this.userLoggedIn = userLoggedIn;
     }
 
@@ -90,67 +86,35 @@ public class Application {
         return homePageUnauth;
     }
 
-    public void setHomePageUnauth(HomePageUnauth homePageUnauth) {
-        Application.homePageUnauth = homePageUnauth;
-    }
-
     public static HomePageAuth getHomePageAuth() {
         return homePageAuth;
-    }
-
-    public void setHomePageAuth(HomePageAuth homePageAuth) {
-        Application.homePageAuth = homePageAuth;
     }
 
     public static LoginPage getLoginPage() {
         return loginPage;
     }
 
-    public void setLoginPage(LoginPage loginPage) {
-        Application.loginPage = loginPage;
-    }
-
-    public static LogoutPage getLogoutPage() {
-        return logoutPage;
-    }
-
-    public void setLogoutPage(LogoutPage logoutPage) {
-        Application.logoutPage = logoutPage;
-    }
-
     public static MoviesPage getMoviesPage() {
         return moviesPage;
-    }
-
-    public void setMoviesPage(MoviesPage moviesPage) {
-        Application.moviesPage = moviesPage;
     }
 
     public static RegisterPage getRegisterPage() {
         return registerPage;
     }
 
-    public void setRegisterPage(RegisterPage registerPage) {
-        Application.registerPage = registerPage;
-    }
-
     public static SeeDetailsPage getSeeDetailsPage() {
         return seeDetailsPage;
-    }
-
-    public void setSeeDetailsPage(SeeDetailsPage seeDetailsPage) {
-        Application.seeDetailsPage = seeDetailsPage;
     }
 
     public static UpgradesPage getUpgradesPage() {
         return upgradesPage;
     }
 
-    public void setUpgradesPage(UpgradesPage upgradesPage) {
-        Application.upgradesPage = upgradesPage;
-    }
-
-    private Application(Input inputData) {
+    /**
+     *
+     * @param inputData to transfer
+     */
+    private Application(final Input inputData) {
         setActions(inputData.getActions());
         setMovies(inputData.getMovies());
         setUsers(inputData.getUsers());
@@ -164,34 +128,56 @@ public class Application {
         upgradesPage = new UpgradesPage();
     }
 
-    public static Application getInstance(Input inputData) {
+    /**
+     *
+     * @param inputData -
+     * @return instance of application
+     *
+     */
+    public static Application getInstance(final Input inputData) {
         if (instance == null) {
             instance = new Application(inputData);
         }
         return instance;
     }
 
+    /**
+     *
+     * @return instance of application
+     */
     public static Application getInstance() {
         return instance;
     }
 
-    public static void setApplication(Application instance) {
+    /**
+     *
+     * @param instance for application
+     */
+    public static void setApplication(final Application instance) {
         Application.instance = instance;
     }
 
-    public void startActions(ArrayNode output) {
+    /**
+     *
+     * @param output -
+     */
+    public void startActions(final ArrayNode output) {
         setCurrentPage(homePageUnauth);
         this.setUserLoggedIn(false);
-        int counter  = 1;
+
+        seeDetailsPage.setFilteredListMovies(this.getMovies());
+
+        // setting available movies for users if they live in certain countries
+        for (User user : getUsers()) {
+            user.setAvailableMovies(this.getMovies());
+        }
+
+
         for (Action action : this.getActions()) {
-            //System.out.println("\nCurrent page is " + currentPage + " before command " + counter);
             switch (action.getType()) {
                 case "change page" -> action.changePage(output, this);
                 case "on page" -> action.onPage(output, this);
             }
-            //System.out.println("Current user is " + currentUser + " after command " + counter);
-            //System.out.println("Current page is " + currentPage + " after command " + counter);
-            counter++;
         }
     }
 }

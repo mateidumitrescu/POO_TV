@@ -12,8 +12,11 @@ import java.util.ArrayList;
 
 public class OutputHandler {
 
+    /**
+     *
+     * @return output for standard error
+     */
     public ObjectNode standardError() {
-        //System.out.println("LALALKCKDKFDKSC");
         ObjectNode objectNode = new ObjectMapper().createObjectNode();
         objectNode.put("error", "Error");
         objectNode.putArray("currentMoviesList");
@@ -21,43 +24,12 @@ public class OutputHandler {
         return objectNode;
     }
 
-    public void createMovieNodes(ObjectNode objectNode, String message, ArrayList<Movie> movies) {
-        ArrayNode movieNodes = objectNode.putArray(message);
-        for (Movie movie : movies) {
-            ObjectNode node = new ObjectMapper().createObjectNode();
-            node.put("name", movie.getName());
-            node.put("year", movie.getYear());
-            node.put("duration", movie.getDuration());
-            ArrayNode nodeGenres = node.putArray("genres");
-            for (String genre : movie.getGenres()) {
-                nodeGenres.add(genre);
-            }
-            ArrayNode nodeActors = node.putArray("actors");
-            for (String actor : movie.getActors()) {
-                nodeActors.add(actor);
-            }
-            ArrayNode nodeCountriesBanned = node.putArray("countriesBanned");
-            for (String country : movie.getCountriesBanned()) {
-                nodeCountriesBanned.add(country);
-            }
-            node.put("numlikes", movie.getNumLikes());
-            node.put("rating", movie.getRating());
-            node.put("numRatings", movie.getNumRatings());
-            movieNodes.add(node);
-        }
-    }
-
-    public ObjectNode userOutput(String page, User user) {
-        //System.out.println("?????????????????");
-        Application application = Application.getInstance();
-        ObjectNode objectNode = new ObjectMapper().createObjectNode();
-        objectNode.put("error", (JsonNode) null);
-        if (!page.equals("movies")) {
-            ArrayList<Movie> nullMovies = new ArrayList<>();
-            createMovieNodes(objectNode, "currentMoviesList", nullMovies);
-        } else {
-            createMovieNodes(objectNode, "currentMoviesList", application.getMovies());
-        }
+    /**
+     *
+     * @param user current
+     * @return current user output
+     */
+    public ObjectNode getCurrentUser(final User user) {
         ObjectNode currentUser = new ObjectMapper().createObjectNode();
         ObjectNode credentials = new ObjectMapper().createObjectNode();
         credentials.put("name", user.getCredentials().getName());
@@ -74,7 +46,129 @@ public class OutputHandler {
         createMovieNodes(currentUser, "likedMovies", user.getLikedMovies());
         createMovieNodes(currentUser, "ratedMovies", user.getRatedMovies());
 
-        objectNode.put("currentUser", currentUser);
+        return currentUser;
+    }
+
+    /**
+     *
+     * @param objectNode output
+     * @param message for output
+     * @param movies array to print
+     */
+    public void createMovieNodes(final ObjectNode objectNode,
+                                 final String message,
+                                 final ArrayList<Movie> movies) {
+
+        ArrayNode movieNodes = objectNode.putArray(message);
+        if (movies != null && movies.size() > 0) {
+            for (Movie movie : movies) {
+                ObjectNode node = new ObjectMapper().createObjectNode();
+                node.put("name", movie.getName());
+                node.put("year", movie.getYear());
+                node.put("duration", movie.getDuration());
+                ArrayNode nodeGenres = node.putArray("genres");
+                for (String genre : movie.getGenres()) {
+                    nodeGenres.add(genre);
+                }
+                ArrayNode nodeActors = node.putArray("actors");
+                for (String actor : movie.getActors()) {
+                    nodeActors.add(actor);
+                }
+                ArrayNode nodeCountriesBanned = node.putArray("countriesBanned");
+                for (String country : movie.getCountriesBanned()) {
+                    nodeCountriesBanned.add(country);
+                }
+                node.put("numLikes", movie.getNumLikes());
+                node.put("rating", movie.getRating());
+                node.put("numRatings", movie.getNumRatings());
+                movieNodes.add(node);
+            }
+        }
+    }
+
+
+    /**
+     *
+     * @param page current page
+     * @param user current
+     * @return output
+     */
+    public ObjectNode userOutput(final String page, final User user) {
+        ObjectNode objectNode = new ObjectMapper().createObjectNode();
+        objectNode.put("error", (JsonNode) null);
+        if (page.equals("movies")) {
+            createMovieNodes(objectNode, "currentMoviesList", user.getAvailableMovies());
+        } else if (page.equals("see details")) {
+            createMovieNodes(objectNode, "currentMoviesList", Application.getSeeDetailsPage().getFilteredListMovies());
+        } else {
+            ArrayList<Movie> nullMovies = new ArrayList<>();
+            createMovieNodes(objectNode, "currentMoviesList", nullMovies);
+        }
+
+        objectNode.put("currentUser", getCurrentUser(user));
+
+        return objectNode;
+    }
+
+    /**
+     *
+     * @param user current
+     * @param prefix "starts with" movie string
+     * @return output
+     */
+    public ObjectNode searchMovies(final User user, final String prefix) {
+        ObjectNode objectNode = new ObjectMapper().createObjectNode();
+        objectNode.put("error", (JsonNode) null);
+
+        ArrayList<Movie> foundMovies = new ArrayList<>();
+        for (Movie movie : user.getAvailableMovies()) {
+            if (movie.getName().startsWith(prefix)) {
+                foundMovies.add(movie);
+            }
+        }
+        createMovieNodes(objectNode, "currentMoviesList", foundMovies);
+
+        objectNode.put("currentUser", getCurrentUser(user));
+
+        return objectNode;
+    }
+
+    /**
+     *
+     * @param user current
+     * @return output
+     */
+    public ObjectNode filteredMovies(final User user) {
+        ObjectNode objectNode = new ObjectMapper().createObjectNode();
+        objectNode.put("error", (JsonNode) null);
+
+        createMovieNodes(objectNode, "currentMoviesList", Application.getSeeDetailsPage().getFilteredListMovies());
+
+        objectNode.put("currentUser", getCurrentUser(user));
+
+        return objectNode;
+    }
+
+    /**
+     *
+     * @param filteredMovies array
+     * @param movieToAdd actual see details movie to print
+     * @return output
+     */
+    public ObjectNode oneMovie(final ArrayList<Movie> filteredMovies,
+                               final Movie movieToAdd) {
+        ArrayList<Movie> movieList = new ArrayList<>();
+        for (Movie movie : filteredMovies) {
+            if (movie.getName().equals(movieToAdd.getName())) {
+                movieList.add(movie);
+                break;
+            }
+        }
+        ObjectNode objectNode = new ObjectMapper().createObjectNode();
+        objectNode.put("error", (JsonNode) null);
+
+        createMovieNodes(objectNode,"currentMoviesList", movieList);
+        objectNode.put("currentUser", getCurrentUser(Application.getInstance().getCurrentUser()));
 
         return objectNode;
     }
