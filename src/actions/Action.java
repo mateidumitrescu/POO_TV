@@ -4,7 +4,6 @@ import application.Application;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import errors.OutputHandler;
 import movies.Movie;
-import pages.LoginPage;
 import pages.Page;
 import users.Credentials;
 import users.User;
@@ -21,6 +20,10 @@ public class Action {
 
     private int rate;
 
+    /**
+     *
+     * @return rate
+     */
     public int getRate() {
         return rate;
     }
@@ -31,56 +34,108 @@ public class Action {
 
     private String movie;
 
+    /**
+     *
+     * @return movie name
+     */
     public String getMovie() {
         return movie;
     }
 
+    /**
+     *
+     * @param movie to set
+     */
     public void setMovie(final String movie) {
         this.movie = movie;
     }
 
+    /**
+     *
+     * @return filters
+     */
     public Filter getFilters() {
         return filters;
     }
 
+    /**
+     *
+     * @return count
+     */
     public int getCount() {
         return count;
     }
 
     private String startsWith;
 
+    /**
+     *
+     * @return starting string
+     */
     public String getStartsWith() {
         return startsWith;
     }
 
+    /**
+     *
+     * @return type
+     */
     public String getType() {
         return type;
     }
 
-    public void setType(String type) {
+    /**
+     *
+     * @param type to set
+     */
+    public void setType(final String type) {
         this.type = type;
     }
 
+    /**
+     *
+     * @return page
+     */
     public String getPage() {
         return page;
     }
 
-    public void setPage(String page) {
+    /**
+     *
+     * @param page to set
+     */
+    public void setPage(final String page) {
         this.page = page;
     }
 
+    /**
+     *
+     * @return feature
+     */
     public String getFeature() {
         return feature;
     }
 
-    public void setFeature(String feature) {
+    /**
+     *
+     * @param feature to set
+     */
+    public void setFeature(final String feature) {
         this.feature = feature;
     }
 
+    /**
+     *
+     * @return credentials
+     */
     public Credentials getCredentials() {
         return credentials;
     }
 
+    /**
+     *
+     * @param credentials to set
+     */
     public void setCredentials(final Credentials credentials) {
         this.credentials = credentials;
     }
@@ -102,7 +157,7 @@ public class Action {
      * @return found movie
      */
     public Movie searchForMovie(final String movieName) {
-        for (Movie movie : Application.getSeeDetailsPage().getFilteredListMovies()) {
+        for (final Movie movie : Application.getSeeDetailsPage().getFilteredListMovies()) {
             if (movie.getName().equals(movieName)) {
                 return movie;
             }
@@ -133,7 +188,8 @@ public class Action {
                 Movie foundMovie = searchForMovie(this.getMovie());
                 if (foundMovie != null) {
                     Application.getSeeDetailsPage().setCurrentMovie(foundMovie);
-                    output.add(outputHandler.oneMovie(Application.getInstance().getCurrentUser().getAvailableMovies(),
+                    output.add(outputHandler.oneMovie(
+                            Application.getInstance().getCurrentUser().getAvailableMovies(),
                                Application.getSeeDetailsPage().getCurrentMovie()));
                 } else {
                     output.add(outputHandler.standardError());
@@ -196,11 +252,13 @@ public class Action {
         ArrayList<String> actorsToFind = this.getFilters().getContains().getActors();
         ArrayList<String> genresToFind = this.getFilters().getContains().getGenre();
 
-        if (actorsToFind != null)
+        if (actorsToFind != null) {
             filterWithActors(actorsToFind, movies);
+        }
 
-        if (genresToFind != null)
+        if (genresToFind != null) {
             filterWithGenres(genresToFind, movies);
+        }
     }
 
     /**
@@ -236,7 +294,7 @@ public class Action {
         if (sort.getDuration().equals("decreasing")) {
             Collections.sort(movies, new Comparator<Movie>() {
                 @Override
-                public int compare(Movie o1, Movie o2) {
+                public int compare(final Movie o1, final Movie o2) {
                     if (o1.getDuration() != o2.getDuration()) {
                         return o2.getDuration() - o1.getDuration();
                     } else {
@@ -251,7 +309,7 @@ public class Action {
         } else {
             Collections.sort(movies, new Comparator<Movie>() {
                 @Override
-                public int compare(Movie o1, Movie o2) {
+                public int compare(final Movie o1, final Movie o2) {
                     if (o1.getDuration() != o2.getDuration()) {
                         return o1.getDuration() - o2.getDuration();
                     } else {
@@ -297,7 +355,7 @@ public class Action {
      */
     public boolean alreadyPurchased(final User user,
                                     final Movie movieToPurchase) {
-        for (Movie movie : user.getPurchasedMovies()) {
+        for (final Movie movie : user.getPurchasedMovies()) {
             if (movie.getName().equals(movieToPurchase.getName())) {
                 return true;
             }
@@ -321,7 +379,7 @@ public class Action {
      */
     public boolean alreadyWatched(final User user,
                                   final Movie movieToWatch) {
-        for (Movie movie : user.getPurchasedMovies()) {
+        for (final Movie movie : user.getPurchasedMovies()) {
             if (movie.getName().equals(movieToWatch.getName())) {
                 return true;
             }
@@ -342,7 +400,7 @@ public class Action {
      * @param movieName to add to liked movies
      */
     public void addMovieToLiked(final String movieName) {
-        for (Movie movie : Application.getInstance().getCurrentUser().getWatchedMovies()) {
+        for (final Movie movie : Application.getInstance().getCurrentUser().getWatchedMovies()) {
             if (movie.getName().equals(movieName)) {
                 Application.getInstance().getCurrentUser().getLikedMovies().add(movie);
                 movie.increaseNumLikes();
@@ -366,17 +424,19 @@ public class Action {
      * @return if user has enough balance
      */
     public boolean userHasEnoughBalance() {
-        int balance = Integer.parseInt(Application.getInstance().getCurrentUser().getCredentials().getBalance());
+        int balance = Integer.parseInt(
+                Application.getInstance().getCurrentUser().getCredentials().getBalance());
         return balance >= this.getCount();
     }
 
     /**
      *
-     * @param tokens amount
+     * @param tokensToCompare amount
      * @return if tokens are enough
      */
-    public boolean userHasEnoughTokens(final int tokens) {
-        return Application.getInstance().getCurrentUser().getTokensCount() >= tokens;
+    public boolean userHasEnoughTokens(final int tokensToCompare) {
+        return Application.getInstance().getCurrentUser().getTokensCount()
+                >= tokensToCompare;
     }
 
     /**
@@ -384,7 +444,8 @@ public class Action {
      * @param output -
      * @param application main object
      */
-    public void onPage(final ArrayNode output, final Application application) {
+    public void onPage(final ArrayNode output,
+                       final Application application) {
         Page currentPage = Application.getCurrentPage();
         OutputHandler outputHandler = new OutputHandler();
         if (!currentPage.getAvailableEvents().contains(this.getFeature())) {
@@ -396,17 +457,23 @@ public class Action {
                     User user = null;
                     for (int i = 0; i < application.getUsers().size(); i++) {
                         user = application.getUsers().get(i);
-                        if (user.getCredentials().getName().equals(this.getCredentials().getName())
-                                && user.getCredentials().getPassword().equals(this.getCredentials().getPassword())) {
+                        if (user.getCredentials().getName().equals(
+                                this.getCredentials().getName())
+                                &&
+                                user.getCredentials().getPassword().equals(
+                                        this.getCredentials().getPassword())) {
                             userExists = true;
                             break;
                         }
                     }
                     if (userExists) {
-                        Application.getSeeDetailsPage().setFilteredListMovies(user.getAvailableMovies());
+                        Application.getSeeDetailsPage().setFilteredListMovies(
+                                user.getAvailableMovies());
                         switchPage("homepage authenticated");
                         application.setCurrentUser(user);
-                        output.add(outputHandler.userOutput("homepage authenticated", application.getCurrentUser()));
+                        output.add(outputHandler.userOutput(
+                                "homepage authenticated",
+                                application.getCurrentUser()));
                     } else {
                         output.add(outputHandler.standardError());
                         switchPage("homepage unauthenticated");
@@ -432,36 +499,44 @@ public class Action {
                         switchPage("homepage authenticated");
                         application.setCurrentUser(newUser);
                         output.add(outputHandler.userOutput("homepage authenticated", newUser));
-                        Application.getSeeDetailsPage().setFilteredListMovies(newUser.getAvailableMovies());
+                        Application.getSeeDetailsPage().setFilteredListMovies(
+                                newUser.getAvailableMovies());
                     }
                 }
                 case "logout" -> {
                     switchPage("homepage unauthenticated");
                     application.setCurrentUser(null);
                 }
-                case "search" -> output.add(outputHandler.searchMovies(application.getCurrentUser(), this.getStartsWith()));
+                case "search" -> output.add(outputHandler.searchMovies(
+                        application.getCurrentUser(), this.getStartsWith()));
                 case "filter" -> {
                     filterMovies();
-                    output.add(outputHandler.filteredMovies(Application.getInstance().getCurrentUser()));
+                    output.add(outputHandler.filteredMovies(
+                            Application.getInstance().getCurrentUser()));
                 }
                 case "purchase" -> {
                     if (alreadyPurchased(Application.getInstance().getCurrentUser(),
                             Application.getSeeDetailsPage().getCurrentMovie())) {
                         output.add(outputHandler.standardError());
                     } else {
-                        int numFreePremiumMovies = Application.getInstance().getCurrentUser().getNumFreePremiumMovies();
-
-                        if (numFreePremiumMovies < 1 || Application.getInstance().getCurrentUser().getCredentials().getAccountType().equals("standard")) {
+                        int numFreePremiumMovies =
+                                Application.getInstance().getCurrentUser().getNumFreePremiumMovies();
+                        User user = Application.getInstance().getCurrentUser();
+                        if (numFreePremiumMovies < 1
+                                || user.getCredentials().getAccountType().equals("standard")) {
                             if (userHasEnoughTokens(2)) {
-                                Application.getInstance().getCurrentUser().setTokensCount(Application.getInstance().getCurrentUser().getTokensCount() - 2);
+                                user.setTokensCount(
+                                        Application.getInstance().getCurrentUser().getTokensCount()
+                                                - 2);
                             }
                         } else {
-                            Application.getInstance().getCurrentUser().setNumFreePremiumMovies(numFreePremiumMovies - 1);
+                            user.setNumFreePremiumMovies(numFreePremiumMovies - 1);
                         }
 
                         addMovieToPurchased(Application.getSeeDetailsPage().getCurrentMovie());
 
-                        output.add(outputHandler.oneMovie(Application.getSeeDetailsPage().getFilteredListMovies(),
+                        output.add(outputHandler.oneMovie(
+                                Application.getSeeDetailsPage().getFilteredListMovies(),
                                    Application.getSeeDetailsPage().getCurrentMovie()));
                     }
                 }
@@ -472,17 +547,20 @@ public class Action {
                         break;
                     }
                     addMovieToWatched(Application.getSeeDetailsPage().getCurrentMovie());
-                    output.add(outputHandler.oneMovie(Application.getSeeDetailsPage().getFilteredListMovies(),
+                    output.add(outputHandler.oneMovie(
+                            Application.getSeeDetailsPage().getFilteredListMovies(),
                                Application.getSeeDetailsPage().getCurrentMovie()));
                 }
                 case "like" -> {
-                    if (!alreadyWatched(Application.getInstance().getCurrentUser(), Application.getSeeDetailsPage().getCurrentMovie())) {
+                    if (!alreadyWatched(Application.getInstance().getCurrentUser(),
+                            Application.getSeeDetailsPage().getCurrentMovie())) {
                         output.add(outputHandler.standardError());
                         break;
                     }
                     addMovieToLiked(this.getMovie());
-                    output.add(outputHandler.oneMovie(Application.getSeeDetailsPage().getFilteredListMovies(),
-                                                      Application.getSeeDetailsPage().getCurrentMovie()));
+                    output.add(outputHandler.oneMovie(
+                            Application.getSeeDetailsPage().getFilteredListMovies(),
+                            Application.getSeeDetailsPage().getCurrentMovie()));
                 }
                 case "rate" -> {
                     if (this.getRate() > 5) {
@@ -495,7 +573,8 @@ public class Action {
                         break;
                     }
                     addMovieToRated(Application.getSeeDetailsPage().getCurrentMovie());
-                    output.add(outputHandler.oneMovie(Application.getSeeDetailsPage().getFilteredListMovies(),
+                    output.add(outputHandler.oneMovie(
+                            Application.getSeeDetailsPage().getFilteredListMovies(),
                                 Application.getSeeDetailsPage().getCurrentMovie()));
                 }
                 case "buy tokens" -> {
@@ -503,17 +582,21 @@ public class Action {
                         output.add(outputHandler.standardError());
                         break;
                     }
-                    Application.getInstance().getCurrentUser().increaseTokens(this.getCount());
-                    Application.getInstance().getCurrentUser().decreaseBalance(this.getCount());
+                    Application.getInstance().getCurrentUser().increaseTokens(
+                            this.getCount());
+                    Application.getInstance().getCurrentUser().decreaseBalance(
+                            this.getCount());
                 }
                 case "buy premium account" -> {
                     if (!userHasEnoughTokens(10)) {
                         output.add(outputHandler.standardError());
                         break;
                     }
-                    Application.getInstance().getCurrentUser().getCredentials().setAccountType("premium");
-                    Application.getInstance().getCurrentUser().decreaseTokens(10);
+                    User user = Application.getInstance().getCurrentUser();
+                    user.getCredentials().setAccountType("premium");
+                    user.decreaseTokens(10);
                 }
+                default -> System.out.println("no command");
             }
         }
     }
@@ -541,7 +624,8 @@ public class Action {
                 Application.getSeeDetailsPage().setCurrentMovie(null);
                 Application.getInstance().setCurrentUser(null);
             }
-            case "see details" -> Application.setCurrentPage(Application.getSeeDetailsPage());
+            case "see details" -> Application.setCurrentPage(
+                    Application.getSeeDetailsPage());
             case "upgrades" -> {
                 Application.setCurrentPage(Application.getUpgradesPage());
                 Application.getSeeDetailsPage().setCurrentMovie(null);

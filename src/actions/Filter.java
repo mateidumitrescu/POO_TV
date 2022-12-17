@@ -5,11 +5,19 @@ public class Filter {
 
     private Contain contains;
 
+    /**
+     *
+     * @return contains
+     */
     public Contain getContains() {
         return contains;
     }
 
 
+    /**
+     *
+     * @return sort type
+     */
     public Sort getSort() {
         return sort;
     }

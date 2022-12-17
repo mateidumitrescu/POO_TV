@@ -142,7 +142,8 @@ public class OutputHandler {
         ObjectNode objectNode = new ObjectMapper().createObjectNode();
         objectNode.put("error", (JsonNode) null);
 
-        createMovieNodes(objectNode, "currentMoviesList", Application.getSeeDetailsPage().getFilteredListMovies());
+        createMovieNodes(objectNode, "currentMoviesList",
+                Application.getSeeDetailsPage().getFilteredListMovies());
 
         objectNode.put("currentUser", getCurrentUser(user));
 
@@ -168,7 +169,8 @@ public class OutputHandler {
         objectNode.put("error", (JsonNode) null);
 
         createMovieNodes(objectNode,"currentMoviesList", movieList);
-        objectNode.put("currentUser", getCurrentUser(Application.getInstance().getCurrentUser()));
+        objectNode.put("currentUser", getCurrentUser(
+                Application.getInstance().getCurrentUser()));
 
         return objectNode;
     }

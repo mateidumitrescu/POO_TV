@@ -7,19 +7,27 @@ public class Contain {
 
     private ArrayList<String> genre;
 
+    /**
+     *
+     * @return list of genres
+     */
     public ArrayList<String> getGenre() {
         return genre;
     }
 
-    public void setGenre(ArrayList<String> genre) {
-        this.genre = genre;
-    }
-
+    /**
+     *
+     * @return list of actors
+     */
     public ArrayList<String> getActors() {
         return actors;
     }
 
-    public void setActors(ArrayList<String> actors) {
+    /**
+     *
+     * @param actors list to set
+     */
+    public void setActors(final ArrayList<String> actors) {
         this.actors = actors;
     }
 }

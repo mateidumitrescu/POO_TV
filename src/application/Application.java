@@ -9,7 +9,7 @@ import users.User;
 
 import java.util.ArrayList;
 
-public class Application {
+public final class Application {
 
     private ArrayList<Action> actions;
 
@@ -21,7 +21,7 @@ public class Application {
         return actions;
     }
 
-    public void setActions(ArrayList<Action> actions) {
+    public void setActions(final ArrayList<Action> actions) {
         this.actions = actions;
     }
 
@@ -29,7 +29,7 @@ public class Application {
         return currentPage;
     }
 
-    public static void setCurrentPage(Page currentPage) {
+    public static void setCurrentPage(final Page currentPage) {
         Application.currentPage = currentPage;
     }
 
@@ -37,7 +37,7 @@ public class Application {
         return users;
     }
 
-    public void setUsers(ArrayList<User> users) {
+    public void setUsers(final ArrayList<User> users) {
         this.users = users;
     }
 
@@ -45,7 +45,7 @@ public class Application {
         return movies;
     }
 
-    public void setMovies(ArrayList<Movie> movies) {
+    public void setMovies(final ArrayList<Movie> movies) {
         this.movies = movies;
     }
 
@@ -57,7 +57,7 @@ public class Application {
         return currentUser;
     }
 
-    public void setCurrentUser(User currentUser) {
+    public void setCurrentUser(final User currentUser) {
         this.currentUser = currentUser;
     }
 
@@ -72,6 +72,10 @@ public class Application {
     private static SeeDetailsPage seeDetailsPage;
     private static UpgradesPage upgradesPage;
 
+    /**
+     *
+     * @param user to add to list
+     */
     public void addUser(final User user) {
         getUsers().add(user);
     }
@@ -153,8 +157,8 @@ public class Application {
      *
      * @param instance for application
      */
-    public static void setApplication(final Application instance) {
-        Application.instance = instance;
+    public static void setApplication(final Application instanceToSet) {
+        Application.instance = instanceToSet;
     }
 
     /**
@@ -177,6 +181,7 @@ public class Application {
             switch (action.getType()) {
                 case "change page" -> action.changePage(output, this);
                 case "on page" -> action.onPage(output, this);
+                default -> System.out.println("no command");
             }
         }
     }

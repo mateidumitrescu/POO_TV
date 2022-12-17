@@ -8,6 +8,11 @@ public abstract class Page {
         availablePages = new ArrayList<>();
         availableEvents = new ArrayList<>();
     }
+
+    /**
+     *
+     * @return available pages for page
+     */
     public ArrayList<String> getAvailablePages() {
         return availablePages;
     }
@@ -16,6 +21,10 @@ public abstract class Page {
 
     private ArrayList<String> availableEvents;
 
+    /**
+     *
+     * @return available events for page
+     */
     public ArrayList<String> getAvailableEvents() {
         return availableEvents;
     }
