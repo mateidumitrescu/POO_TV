@@ -515,13 +515,13 @@ public class Action {
                             Application.getInstance().getCurrentUser()));
                 }
                 case "purchase" -> {
+                    User user = Application.getInstance().getCurrentUser();
                     if (alreadyPurchased(Application.getInstance().getCurrentUser(),
                             Application.getSeeDetailsPage().getCurrentMovie())) {
                         output.add(outputHandler.standardError());
                     } else {
                         int numFreePremiumMovies =
-                                Application.getInstance().getCurrentUser().getNumFreePremiumMovies();
-                        User user = Application.getInstance().getCurrentUser();
+                                user.getNumFreePremiumMovies();
                         if (numFreePremiumMovies < 1
                                 || user.getCredentials().getAccountType().equals("standard")) {
                             if (userHasEnoughTokens(2)) {

@@ -17,7 +17,6 @@ Starting audit...
 [ERROR] /Users/mateidumitrescu/Documents/Facultate/Anul II/OOP/teme/proiect1_git/./src/actions/Action.java:403:26: 'movie' hides a field. [HiddenField]
 [ERROR] /Users/mateidumitrescu/Documents/Facultate/Anul II/OOP/teme/proiect1_git/./src/actions/Action.java:447:5: Method length is 155 lines (max allowed is 150). [MethodLength]
 [ERROR] /Users/mateidumitrescu/Documents/Facultate/Anul II/OOP/teme/proiect1_git/./src/actions/Action.java:488:74: '&&' should be on a new line. [OperatorWrap]
-[ERROR] /Users/mateidumitrescu/Documents/Facultate/Anul II/OOP/teme/proiect1_git/./src/actions/Action.java:523: Line is longer than 100 characters (found 101). [LineLength]
 [ERROR] /Users/mateidumitrescu/Documents/Facultate/Anul II/OOP/teme/proiect1_git/./src/actions/Action.java:566:42: '5' is a magic number. [MagicNumber]
 [ERROR] /Users/mateidumitrescu/Documents/Facultate/Anul II/OOP/teme/proiect1_git/./src/actions/Action.java:591:46: '10' is a magic number. [MagicNumber]
 [ERROR] /Users/mateidumitrescu/Documents/Facultate/Anul II/OOP/teme/proiect1_git/./src/actions/Action.java:597:41: '10' is a magic number. [MagicNumber]
@@ -26,4 +25,4 @@ Starting audit...
 [ERROR] /Users/mateidumitrescu/Documents/Facultate/Anul II/OOP/teme/proiect1_git/./src/errors/OutputHandler.java:102: Line is longer than 100 characters (found 119). [LineLength]
 [ERROR] /Users/mateidumitrescu/Documents/Facultate/Anul II/OOP/teme/proiect1_git/./src/errors/OutputHandler.java:171:36: ',' is not followed by whitespace. [WhitespaceAfter]
 Audit done.
-Checkstyle ends with 26 errors.
+Checkstyle ends with 25 errors.
